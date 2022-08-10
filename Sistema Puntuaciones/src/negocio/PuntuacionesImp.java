@@ -5,12 +5,12 @@ import datos.*;
 import domain.Jugador;
 import excepciones.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class PuntuacionesImp implements IPuntuaciones{
 
+    // Declaracion del atributo de tipo IAccesoDatos, de esta forma podemos
+    // utilizar todos los metodos definidos en la clase Acceso Datos.
     IAccesoDatos datos;
     List<Jugador> lista;
 
@@ -19,6 +19,10 @@ public class PuntuacionesImp implements IPuntuaciones{
         this.lista = new ArrayList();
     }
     
+    // Metodo para iniciar con la creacion de un archivo. Si este existe, se 
+    // borrar y se crea uno nuevo, en caso contrario se creara el archvo. Este
+    // metodo podria arrojar una excepcion pero no de escritura o lectura, lo que
+    // podria ocurrir es que no se encuentre la ruta del archivo.
     @Override
     public void iniciarArchivo(String nombreArchivo) {
         
@@ -36,17 +40,20 @@ public class PuntuacionesImp implements IPuntuaciones{
         }
     }
     
+    // Metodo que solicita los datos de un jugador, validando que el usuario
+    // no deje en blanco alguno de estos datos. Al agregar correctamente los 
+    //datos de un jugador, este sera agregado a una lista.
     @Override
     public void agregarJugador() {
         Scanner lect = new Scanner(System.in);
         Jugador jugador = null;
         long puntuacion = 0;
         String nickname = null;
-        int bandera=1;
+        int bandera = 1;
         
-        while(bandera==1)
+        while(bandera == 1)
         {
-            System.out.print("Ingresa el nombre del jugador: ");
+            System.out.print("\nIngresa el nombre del jugador: ");
             nickname = lect.nextLine();
             System.out.print("Ingresa su puntuacion: ");
             String puntuacionS = lect.nextLine();
@@ -61,13 +68,15 @@ public class PuntuacionesImp implements IPuntuaciones{
         
         jugador = new Jugador(nickname, puntuacion );
         this.lista.add(jugador);
-        System.out.println("Jugador agregado.");
+        System.out.println("\nJugador agregado.");
     }
 
-  
+    // Metodo que se encarga de leer toda la informacion que se encuentra en 
+    // el archivo. Esta informacion se pasara a una lista. Puede ocurrir una 
+    // excepcion a la hora de leer.
     @Override
     public void cargarJugadores(String nombreArchivo) {
-        List<Jugador> jugadores=null;
+        List<Jugador> jugadores = null;
         
         try {
             jugadores = this.datos.listar(nombreArchivo);
@@ -81,25 +90,35 @@ public class PuntuacionesImp implements IPuntuaciones{
         });
     }
     
+    // Metodo el cual se encarga de ordenar una serie de objetos que se encuentran
+    // en la lista, con base al valor de cierto atributo.
     @Override
     public void ordenarJugadores(){
         
         Collections.sort(this.lista);
     }
-    
+
+    // Metodo que imprime la informacion de todos los jugadores que hay registrados 
+    // en el sistema junto con sus respectivas puntuaciones, ordenados de mayor a menor.
     @Override
     public void mostrarJugadores( ) {
         
-        if(Jugador.contadorJugadores>Jugador.MAX_JUGADORES){
+        if(Jugador.contadorJugadores > Jugador.MAX_JUGADORES){
+            System.out.println("\n\t   Jugador     Puntuacion");
             for (int i = 0; i < 10; i++) 
-                System.out.println( "\t"+(i+1)+"- "+this.lista.get( this.lista.size()-1-i ));
+                System.out.println( "\t" + (i+1) + ". " + this.lista.get( this.lista.size()-1-i ).getNickname() +
+                        "\t\t" + this.lista.get( this.lista.size()-1-i ).getPuntuacion());
         }
         else{
+            System.out.println("\n\t   Jugador    Puntuacion");
             for (int i = 0; i < Jugador.contadorJugadores; i++) 
-                System.out.println( "\t"+(i+1)+"- "+this.lista.get( this.lista.size()-1-i ));
+                System.out.println( "\t" + (i+1) + ". " + this.lista.get( this.lista.size()-1-i ).getNickname() +
+                        "\t\t" + this.lista.get( this.lista.size()-1-i ).getPuntuacion());
         }
     }
     
+    // Metodo el cual almacenara en el archivo toda la informacion que hay 
+    // guardada en la lista.
     @Override
     public void guardarPuntuaciones(String nombreArchivo){
         

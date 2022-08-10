@@ -9,13 +9,15 @@ import java.util.*;
 
 public class AccesoDatosImp implements IAccesoDatos{
 
-       
+    // Metodo que se manda a llamar para determinar si existe el archivo txt en 
+    // el cual se almacenara la informacion de las puntuaciones.
     @Override
     public boolean existe(String nombreArchivo) throws AccesoDatosEx {
         File archivo = new File(nombreArchivo);
         return archivo.exists();
     }
 
+    // Metodo que se encarga de leer datos del archivo.
     @Override
     public List<Jugador> listar(String nombreArchivo) throws LecturaDatosEx {
         List<Jugador> listaJugador = new ArrayList();
@@ -25,7 +27,7 @@ public class AccesoDatosImp implements IAccesoDatos{
         try {
             BufferedReader lector = new BufferedReader(new FileReader(archivo));
             String linea;
-            while((linea=lector.readLine())!=null)
+            while( (linea = lector.readLine()) != null)
             {
                 String atributos[] = linea.split(",");
                 juga = new Jugador( atributos[0], Long.parseLong(atributos[1]) );
@@ -42,6 +44,7 @@ public class AccesoDatosImp implements IAccesoDatos{
         return listaJugador;
     }
 
+    // Metodo que se encarga de escribir datos del archivo.
     @Override
     public void escribir(Jugador jugador, String nombreArchivo, boolean anexar) throws EscrituraDatosEx {
         File archivo = new File(nombreArchivo);
@@ -63,12 +66,12 @@ public class AccesoDatosImp implements IAccesoDatos{
     @Override
     public String buscar(String nombreArchivo, String buscar) throws LecturaDatosEx {
         File archivo = new File(nombreArchivo);
-        int coincidencia=0;
-        int numeroLinea=0;
+        int coincidencia = 0;
+        int numeroLinea = 0;
         try {
             BufferedReader lector = new BufferedReader(new FileReader(archivo));
             String linea;
-            while((linea=lector.readLine())!=null)
+            while( ( linea = lector.readLine()) != null)
             {
                 numeroLinea++;
                 if(linea.equalsIgnoreCase(buscar))
@@ -86,12 +89,13 @@ public class AccesoDatosImp implements IAccesoDatos{
             throw new LecturaDatosEx("Excepcion al buscar jugador: "+ ex.getMessage());
         }
         
-        if(coincidencia==1)
+        if(coincidencia == 1)
             return "Se encontro la jugador \"" + buscar + "\" en la linea "+numeroLinea;
         else
             return "No se encontro la jugador. ";
     }
 
+    // Metodo que se encarga de crear el archivo.
     @Override
     public void crear(String nombreArchivo) throws AccesoDatosEx {
         
@@ -106,7 +110,7 @@ public class AccesoDatosImp implements IAccesoDatos{
         }
     }
 
-
+    // Metodo que se encarga de eliminar el archivo.
     @Override
     public void borrar(String nombreArchivo) throws AccesoDatosEx {
         File archivo = new File(nombreArchivo);

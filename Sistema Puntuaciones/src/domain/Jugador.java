@@ -3,12 +3,12 @@ package domain;
 
 public class Jugador implements Comparable<Jugador>{
     
+    public final static int MAX_JUGADORES = 10; // Para almcenar solo las 10 puntuaciones mas altas.
+    public static int contadorJugadores;
+    
     private String nickname;
     private long puntuacion;
     private final int idJugador;
-    
-    public final static int MAX_JUGADORES=10;
-    public static int contadorJugadores;
     
     public Jugador(String nickname, long puntuacion) {
         this.nickname = nickname;
@@ -41,6 +41,9 @@ public class Jugador implements Comparable<Jugador>{
         return this.nickname + "," + this.puntuacion;
     }
 
+    // Metodo que permite ordenar de menor a mayor una lista de objetos de este tipo
+    // con base al valor de determinado atributo, en este caso con base al atributo
+    // puntuacion.
     @Override
     public int compareTo(Jugador o) {
         if(o.getPuntuacion()>puntuacion)

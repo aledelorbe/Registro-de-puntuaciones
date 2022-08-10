@@ -6,7 +6,8 @@ import excepciones.*;
 import java.util.List;
 
 
-
+// Interface en la que se declaran los metodos pertienentes que debera tener
+// la clase Acceso Datos.
 public interface IAccesoDatos {
     
     boolean existe(String nombreArchivo) throws AccesoDatosEx;

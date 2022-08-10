@@ -1,10 +1,8 @@
 
 package negocio;
 
-import domain.Jugador;
-import java.util.List;
-
-
+// Interface en la que se declaran los metodos pertienentes que debera tener
+// la clase puntuaciones.
 public interface IPuntuaciones {
     
     void iniciarArchivo(String nombreArchivo);
