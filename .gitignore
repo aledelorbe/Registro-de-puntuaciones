@@ -1,4 +1,3 @@
 *.class
-*.xml
-*.properties
 *.mf
+/build/
